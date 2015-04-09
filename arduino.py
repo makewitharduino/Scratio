@@ -7,7 +7,8 @@ class arduino():
 
     def __init__(self):
         self.ser = serial.Serial()
-        self.dp = [0] * 12
+        self.dp_out = [0] * 6
+        self.dp_in = [0] * 6
         self.ap = [0] * 5
 
     def getportlist(self):
@@ -34,11 +35,11 @@ class arduino():
         while True:
             line = self.ser.readline().rstrip('\r\n')
             if len(line) > 0 and line.find('D') == 0:
-                print line
-                dstr = line[1:13]
-                for x in range(0,12):
-                    self.dp[x] = dstr[x]
+                dstr = line[1:6]
+                for x in range(0,5):
+                    self.dp_in[x] = dstr[x]
                 self.ap = line[line.find('A')+1:].split(',')
+
             time.sleep(1)
 
     def stop(self):
@@ -46,7 +47,7 @@ class arduino():
         self.thread.join()
 
     def getDigitalState(self):
-        return self.dp
+        return self.dp_in
 
     def getAnalogState(self):
         return self.ap
@@ -54,6 +55,7 @@ class arduino():
     def sendCommand(self,command,pin,val):
         msg = ""
         msg += str(pin) + command + str(val) + '\r\n'
+        print msg
         self.ser.write(msg)
 
     def close(self):
@@ -61,7 +63,8 @@ class arduino():
 
 if __name__ == "__main__":
     ser = arduino()
-    ser.open("COM26",115200)
+#    ser.open("COM26",115200)
+    ser.open("/dev/cu.usbmodem411",115200)
     ser.main()
 
     while True:
@@ -76,5 +79,5 @@ if __name__ == "__main__":
             print "error"
             break
 
-ser.close()
-print "stop"
+    ser.close()
+    print "stop"

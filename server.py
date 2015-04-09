@@ -1,6 +1,7 @@
 import socket
 import threading
 import time
+from arduino import *
 
 class server():
 
@@ -12,7 +13,15 @@ class server():
         self.sock.bind((host, self.port))
         self.sock.listen(1)
 
+        self.call_arduino()
+
         print 'waiting for connection...'
+
+    def call_arduino(self):
+        self.ser = arduino()
+        #    ser.open("COM26",115200)
+        self.ser.open("/dev/cu.usbmodem411",115200)
+        self.ser.main()
 
     def sendResponse(self,s):
         crlf = '\r\n'
@@ -45,13 +54,31 @@ class server():
         else:
             self.doCommand(header)
 
+    def getState(self,state):
+        if state != 0:
+            return "true"
+        else:
+            return "false"
+
     def doCommand(self,header):
         if header == 'poll':
+            dp_in = self.ser.getDigitalState()
+            ap = self.ser.getAnalogState()
             self.sendResponse(""
-                + 'analogRead/a0 1' + chr(10)
-                + 'analogRead/a1 0' + chr(10)
-                + 'digitalRead/d0 false' + chr(10)
-                )
+                + 'analogRead/a0 ' + ap[0] + chr(10)
+                + 'analogRead/a1 ' + ap[1] + chr(10)
+                + 'analogRead/a2 ' + ap[2] + chr(10)
+                + 'analogRead/a3 ' + ap[3] + chr(10)
+                + 'analogRead/a4 ' + ap[4] + chr(10)
+                + 'analogRead/a5 ' + ap[5] + chr(10)
+                + 'digitalRead/d2 ' + self.getState(dp_in[0])  + chr(10)
+                + 'digitalRead/d4 ' + self.getState(dp_in[1])  + chr(10)
+                + 'digitalRead/d7 ' + self.getState(dp_in[2])  + chr(10)
+                + 'digitalRead/d8 ' + self.getState(dp_in[3])  + chr(10)
+                + 'digitalRead/d12 ' + self.getState(dp_in[4])  + chr(10)
+                + 'digitalRead/d13 ' + self.getState(dp_in[5])  + chr(10)
+            )
+
         elif header == 'reset_all':
                 #moControl.getArduino().resetAll();
                 print "reset_all"
@@ -59,13 +86,14 @@ class server():
         else:
             las = header.split("/")
             if las[0] == 'digitalWrite':
-                print las[1]
-                print las[2]
-                #moControl.getArduino().digitalWrite(las[1], las[2])
+                pin = las[1][1:]
+                state = 0
+                if las[2] == "true":
+                    state = 1
+                self.ser.sendCommand("D",pin,state)
             elif las[0] == 'analogWrite':
-                print las[1]
-                print las[2]
-                #moControl.getArduino().analogWrite(las[1], Double.valueOf(las[2]).intValue())
+                pin = las[1][1:]
+                self.ser.sendCommand("A",pin,int(las[2]))
             else:
                 print "else1"
                 self.sendResponse("ok")
