@@ -6,21 +6,22 @@ from arduino import *
 class server():
 
     def __init__(self,port):
+        self.stop_event = threading.Event()
         host = socket.gethostbyname('localhost')
         self.port = port
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.sock.bind((host, self.port))
         self.sock.listen(1)
+        self.ser = arduino()
 
-        self.call_arduino()
+        #self.call_arduino("COM26")
 
         print 'waiting for connection...'
 
-    def call_arduino(self):
+    def call_arduino(self,port):
         self.ser = arduino()
-        #    ser.open("COM26",115200)
-        self.ser.open("/dev/cu.usbmodem411",115200)
+        self.ser.open(port,115200)
         self.ser.main()
 
     def sendResponse(self,s):
@@ -61,16 +62,19 @@ class server():
             return "false"
 
     def doCommand(self,header):
+        if self.ser.checkOpenflg() == 0:
+            return
+
         if header == 'poll':
             dp_in = self.ser.getDigitalState()
             ap = self.ser.getAnalogState()
             self.sendResponse(""
-                + 'analogRead/a0 ' + ap[0] + chr(10)
-                + 'analogRead/a1 ' + ap[1] + chr(10)
-                + 'analogRead/a2 ' + ap[2] + chr(10)
-                + 'analogRead/a3 ' + ap[3] + chr(10)
-                + 'analogRead/a4 ' + ap[4] + chr(10)
-                + 'analogRead/a5 ' + ap[5] + chr(10)
+                + 'analogRead/a0 ' + str(ap[0]) + chr(10)
+                + 'analogRead/a1 ' + str(ap[1]) + chr(10)
+                + 'analogRead/a2 ' + str(ap[2]) + chr(10)
+                + 'analogRead/a3 ' + str(ap[3]) + chr(10)
+                + 'analogRead/a4 ' + str(ap[4]) + chr(10)
+                + 'analogRead/a5 ' + str(ap[5]) + chr(10)
                 + 'digitalRead/d2 ' + self.getState(dp_in[0])  + chr(10)
                 + 'digitalRead/d4 ' + self.getState(dp_in[1])  + chr(10)
                 + 'digitalRead/d7 ' + self.getState(dp_in[2])  + chr(10)
@@ -78,7 +82,6 @@ class server():
                 + 'digitalRead/d12 ' + self.getState(dp_in[4])  + chr(10)
                 + 'digitalRead/d13 ' + self.getState(dp_in[5])  + chr(10)
             )
-
         elif header == 'reset_all':
                 #moControl.getArduino().resetAll();
                 print "reset_all"
@@ -105,14 +108,16 @@ class server():
 
     def main(self):
         print "main started"
-        thread = threading.Thread(target=self.readSocket)
-        thread.setDaemon(True)
-        thread.start()
+        self.thread = threading.Thread(target=self.readSocket)
+        self.thread.setDaemon(True)
+        self.thread.start()
 
     def readSocket(self):
         while True:
-            (self.client_sock, self.client_addr) = self.sock.accept()
-
+            try:
+                (self.client_sock, self.client_addr) = self.sock.accept()
+            except socket.error:
+                break
             msg = ''
             while msg.find('\n') == -1:
                 msg = self.client_sock.recv(1024)
@@ -125,12 +130,18 @@ class server():
             self.client_sock.close()
 
     def close(self):
-        self.client_sock.close()
+        print "server close()"
+        self.ser.close()
+        self.stop_event.set()
+        #self.client_sock.close()
         self.sock.close()
+
 
 if __name__ == "__main__":
     server = server(8099)
     server.main()
+    server.call_arduino("COM26")
+#    server.call_arduino("/dev/cu.usbmodem411")
 
     while True:
         try:
@@ -141,4 +152,5 @@ if __name__ == "__main__":
             print "error"
             break
 
-server.close()
+    #ser.close()
+    server.close()
