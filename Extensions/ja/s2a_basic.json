@@ -2,11 +2,11 @@
     "extensionName": "S2A",
     "extensionPort": 8099,
     "blockSpecs": [
-        [" ", "デジタル出力 %m.outDPins %m.dOutp", "digitalWrite", "d1", "true"],
+        [" ", "デジタル出力 %m.outDPins %m.dOutp", "digitalWrite", "d3", "true"],
         [" ", "アナログ出力Write %m.outDPins %n", "analogWrite", "d5", "100"],
+        [" ", "トーン %m.outDPins %n","tone","d3","220"],
         ["b", "デジタル入力 %m.inDPins", "digitalRead", "d2"],
         ["r", "アナログ入力 %m.inAPins", "analogRead", "a0"]
-
     ],
     "menus": {
       "outDPins": ["d3","d5","d6","d9","d10","d11"],
