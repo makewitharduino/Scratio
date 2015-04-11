@@ -21,7 +21,7 @@ Connect Scratch 2 to Arduino Stand Alone.
 8. Now you can access the s2a blocks in the "More Blocks" tab
 
 ## Links
-- [src](https://github.com/okhiroyuki/s2a/src/)
+- [src](https://github.com/okhiroyuki/S2A/tree/master/src)
 - [Arduino](http://arduino.cc)
 - [Scratch 2.0](http://scratch.mit.edu)
 
