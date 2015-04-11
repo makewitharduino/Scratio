@@ -1,4 +1,5 @@
-S2A
+S2A　[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/okhiroyuki/S2A?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ==================
 
 Arduino extension for Scratch 2.0 OFFLINE
@@ -6,7 +7,6 @@ Arduino extension for Scratch 2.0 OFFLINE
 Connect Scratch 2 to Arduino Stand Alone.  
 
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/okhiroyuki/S2A?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
 
 Must have
 -----------
