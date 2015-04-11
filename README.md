@@ -13,7 +13,7 @@ Connect Scratch 2 to Arduino Stand Alone.
 1. Attach a Arduino
 2. Connect the Arduino to the computer via USB cable
 3. Upload the ```ArduinoCode/s2a/s2a.ino``` using the Arduino IDE.
-4. Download ```S2A-0.1-win32.msi(windows)``` or ```S2A.app.zip(mac)``` from [Releases](https://github.com/okhiroyuki/S2A/tree/master/src)
+4. Download ```S2A-0.1-win32.msi(windows)``` or ```S2A.app.zip(mac)``` from [Releases](https://github.com/okhiroyuki/S2A/releases)
 5. Install ```S2A-0.1-win32.msi (windows) or unzip ```S2A.app.zip (mac)```
 5. Execute with ```s2a.exe``` or ```s2a.app```
 6. Open Scratch 2.0 offline pulse SHIFT key and ```File``` and ```Import experimental HTTP extension```
@@ -22,7 +22,7 @@ Connect Scratch 2 to Arduino Stand Alone.
 
 ## Links
 - [src](https://github.com/okhiroyuki/S2A/tree/master/src)
-- [app](https://github.com/okhiroyuki/S2A/tree/master/src)
+- [app](https://github.com/okhiroyuki/S2A/releases)
 - [Arduino](http://arduino.cc)
 - [Scratch 2.0](http://scratch.mit.edu)
 
