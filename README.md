@@ -2,7 +2,7 @@
 
 Arduino extension for Scratch 2.0 OFFLINE
 
-Connect Scratch 2 to Arduino Stand Alone.  
+Connect Scratch 2 to Arduino Stand Alone.
 
 ## Must have
 - [Arduino](http://arduino.cc/en/Main/Products)
@@ -18,12 +18,6 @@ Connect Scratch 2 to Arduino Stand Alone.
 6. Open Scratch 2.0 offline pulse SHIFT key and ```File``` and ```Import experimental HTTP extension```
 7. Choose the ```Extensions/s2a_base.json```
 8. Now you can access the s2a blocks in the "More Blocks" tab
-
-## Links
-- [src](https://github.com/okhiroyuki/S2A/tree/master/src)
-- [app](https://github.com/okhiroyuki/S2A/releases)
-- [Arduino](http://arduino.cc)
-- [Scratch 2.0](http://scratch.mit.edu)
 
 ## Thanks
 https://github.com/electronicadivertida/scratch2LittleBits
