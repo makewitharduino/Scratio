@@ -1,0 +1,15 @@
+{
+  "version":"0.2",
+  "en":{
+    "connecting":"Connecting",
+    "connect":"Connect",
+    "serial":"Serial Port",
+    "site":"http://okhiroyuki.github.io/S2A/index.html"
+  },
+  "ja":{
+    "connecting":"接続中",
+    "connect":"接続",
+    "serial":"シリアルポート",
+    "site":"http://okhiroyuki.github.io/S2A/ja/index.html"
+  }
+}
