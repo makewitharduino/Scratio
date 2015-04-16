@@ -15,7 +15,7 @@ class s2a:
         self.openjson()
 
     def openjson(self):
-        json_path = os.path.abspath("json/setting.json")
+        json_path = os.path.abspath("setting.json")
         f = open(json_path, 'r')
         self.jsonData = json.load(f)
 
@@ -72,6 +72,8 @@ class s2a:
 
         application = wx.App()
 
+        icon = wx.Icon("images/app_icon.ico",wx.BITMAP_TYPE_ICO,16,16)
+
         self.panel = wx.Panel(self.frame,wx.ID_ANY)
         self.panel.SetBackgroundColour("#AFAFAF")
 
@@ -85,7 +87,7 @@ class s2a:
         menu_lang.AppendRadioItem(2,u"English")
 
         self.menu_bar.Append(self.menu_about,u"Help")
-        self.menu_about.Append(3,u"MySite")
+        self.menu_about.Append(3,u"Documents")
         self.menu_about.Append(4,u"Version Info")
         self.frame.Bind(wx.EVT_MENU,self.selectMenu)
 
@@ -103,6 +105,7 @@ class s2a:
         layout.Add(listbox,flag=wx.GROW|wx.ALL,border=10)
         layout.Add(self.button,flag=wx.GROW|wx.ALIGN_CENTER|wx.LEFT|wx.RIGHT|wx.BOTTOM,border=10)
 
+        self.frame.SetIcon(icon)
         self.panel.SetSizer(layout)
         self.frame.SetMenuBar(self.menu_bar)
         self.frame.Show()
