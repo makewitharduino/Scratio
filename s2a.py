@@ -4,6 +4,7 @@ import serial.tools.list_ports
 import wx
 import json
 import os
+import sys
 import webbrowser
 
 class s2a:
@@ -13,12 +14,24 @@ class s2a:
         self.lang = 'ja'
         self.getportlist()
         self.openjson()
+        self.icon = self.find_data_file('images/app_icon.ico')
+
+    def find_data_file(self,filename):
+        if getattr(sys, 'frozen', False):
+            # The application is frozen
+            datadir = os.path.dirname(sys.executable)
+        else:
+            # The application is not frozen
+            # Change this bit to match where you store your data files:
+            datadir = os.path.dirname(__file__)
+
+        return os.path.join(datadir, filename)
 
     def openjson(self):
-        json_path = os.path.abspath("setting.json")
+        #json_path = os.path.abspath("setting.json")
+        json_path = self.find_data_file("setting.json")
         f = open(json_path, 'r')
         self.jsonData = json.load(f)
-
 
     def getportlist(self):
         self.ports = []
@@ -72,7 +85,7 @@ class s2a:
 
         application = wx.App()
 
-        icon = wx.Icon("images/app_icon.ico",wx.BITMAP_TYPE_ICO,16,16)
+        icon = wx.Icon(self.icon,wx.BITMAP_TYPE_ICO,16,16)
 
         self.panel = wx.Panel(self.frame,wx.ID_ANY)
         self.panel.SetBackgroundColour("#AFAFAF")
