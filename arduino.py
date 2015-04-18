@@ -8,9 +8,9 @@ class arduino():
     def __init__(self):
         self.stop_event = threading.Event()
         self.ser = serial.Serial()
-        self.dp_out = [0] * 6
-        self.dp_in = [0] * 6
-        self.ap = [0] * 6
+        self.dp_out = [-1] * 3   #d10,d11,d13
+        self.dp_in = [-1] * 3    #d2,d3,d4
+        self.ap = [-1] * 7   #A0,A1,A2,A3,A4,A5,A6
         self.oflg = 0
 
     def open(self,port,baudrate):
@@ -25,7 +25,7 @@ class arduino():
         return self.oflg
 
     def main(self):
-        print "main started"
+        print "Arduino started"
         self.thread = threading.Thread(target=self.readStatus)
         self.thread.setDaemon(True)
         self.thread.start()
@@ -34,13 +34,17 @@ class arduino():
         while True:
             try:
                 line = self.ser.readline().rstrip('\r\n')
-                if len(line) > 0 and line.find('D') == 0:
-                    dstr = line[1:6]
-                    for x in range(0,5):
-                        self.dp_in[x] = dstr[x]
-                    self.ap = line[line.find('A')+1:].split(',')
-
-                time.sleep(1)
+                if len(line) > 0:
+                    #read state of digital Pin
+                    if line.find('D') != -1:
+                        index = line.find('D')
+                        dstr = line[index+1:index+4]
+                        for x in range(0,3):
+                            self.dp_in[x] = dstr[x]
+                    #read value of analog pin
+                    if line.find('A') != -1:
+                        self.ap = line[line.find('A')+1:].split(',')
+                time.sleep(0.01)
             except:
                 break
 
@@ -53,7 +57,6 @@ class arduino():
     def sendCommand(self,command,pin,val):
         msg = ""
         msg += str(pin) + command + str(val) + '\r\n'
-        print msg
         self.ser.write(msg)
 
     def close(self):
@@ -65,8 +68,9 @@ class arduino():
 
 if __name__ == "__main__":
     ser = arduino()
-    ser.open("COM26",115200)
+#    ser.open("COM26",115200)
 #    ser.open("/dev/cu.usbmodem411",115200)
+    ser.open("/dev/cu.usbserial-A901OFEZ",115200)
     ser.main()
 
     while True:

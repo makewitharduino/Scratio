@@ -16,8 +16,6 @@ class server():
         self.sock.listen(1)
         self.ser = arduino()
 
-        #self.call_arduino("COM26")
-
         print 'waiting for connection...'
 
     def call_arduino(self,port):
@@ -57,7 +55,7 @@ class server():
             self.doCommand(header)
 
     def getState(self,state):
-        if state != 0:
+        if int(state) != 1:
             return "true"
         else:
             return "false"
@@ -65,44 +63,66 @@ class server():
     def doCommand(self,header):
         if self.ser.checkOpenflg() == 0:
             return
-
         if header == 'poll':
             dp_in = self.ser.getDigitalState()
             ap = self.ser.getAnalogState()
-            self.sendResponse(""
-                + 'analogRead/a0 ' + str(ap[0]) + chr(10)
-                + 'analogRead/a1 ' + str(ap[1]) + chr(10)
-                + 'analogRead/a2 ' + str(ap[2]) + chr(10)
-                + 'analogRead/a3 ' + str(ap[3]) + chr(10)
-                + 'analogRead/a4 ' + str(ap[4]) + chr(10)
-                + 'analogRead/a5 ' + str(ap[5]) + chr(10)
-                + 'digitalRead/d2 ' + self.getState(dp_in[0])  + chr(10)
-                + 'digitalRead/d4 ' + self.getState(dp_in[1])  + chr(10)
-                + 'digitalRead/d7 ' + self.getState(dp_in[2])  + chr(10)
-                + 'digitalRead/d8 ' + self.getState(dp_in[3])  + chr(10)
-                + 'digitalRead/d12 ' + self.getState(dp_in[4])  + chr(10)
-                + 'digitalRead/d13 ' + self.getState(dp_in[5])  + chr(10)
-            )
+            msg = ""
+            for num in range(len(ap)):
+                if  ap[num] != -1:
+                    if num == 4:
+                        msg += 'analogRead/A' + str(num) + ' ' + str(ap[num]) + chr(10)
+                        msg += 'brightness ' + str(ap[num]) + chr(10)
+                    elif num == 5:
+                        msg += 'analogRead/A' + str(num) + ' ' + str(ap[num]) + chr(10)
+                        msg += 'sound ' + str(ap[num]) + chr(10)
+                    elif num == 6:
+                        msg += 'slider ' + str(ap[num]) + chr(10)
+                    else:
+                        msg += 'analogRead/A' + str(num) + ' ' + str(ap[num]) + chr(10)
+            for num in range(len(dp_in)):  #D2,D3,D4
+                if dp_in[num] != -1:
+                    if num == 0:
+                        msg += 'button ' + self.getState(dp_in[num]) + chr(10)
+                    msg += 'digitalRead/D' + str(num+2) + ' '+ self.getState(dp_in[num]) + chr(10)
+            if len(msg) > 0:
+                self.sendResponse(msg)
         elif header == 'reset_all':
                 #moControl.getArduino().resetAll();
                 print "reset_all"
                 self.sendResponse("ok")
         else:
             las = header.split("/")
-            if las[0] == 'digitalWrite':
+            if las[0] == 'digitalWriteOn':
                 pin = las[1][1:]
-                state = 0
-                if las[2] == "true":
-                    state = 1
-                self.ser.sendCommand("D",pin,state)
+                self.ser.sendCommand("D",pin,1)
+            elif las[0] == 'digitalWriteOff':
+                pin = las[1][1:]
+                self.ser.sendCommand("D",pin,0)
             elif las[0] == 'analogWrite':
                 pin = las[1][1:]
                 self.ser.sendCommand("A",pin,int(las[2]))
             elif las[0] == 'tone':
+                val = int(las[1])
+                if val < 0:
+                    val = 0
+                self.ser.sendCommand("T","9",val)
+            elif las[0] == 'servoangle':
                 pin = las[1][1:]
-                self.ser.sendCommand("T",pin,int(las[2]))
+                angle = int(las[2])
+                if angle > 180:
+                    angle = 180
+                elif angle < 0:
+                    angle = 0
+                self.ser.sendCommand("SA",pin,angle)
+            elif las[0] == 'servodetach':
+                pin = las[1][1:]
+                self.ser.sendCommand("SD",pin,0)
+            elif las[0] == 'ledon':
+                self.ser.sendCommand("D",13,1)
+            elif las[0] == 'ledoff':
+                self.ser.sendCommand("D",13,0)
             else:
-                print "else1"
+                print "else"
                 self.sendResponse("ok")
 
     def doHelp(self):
@@ -111,7 +131,7 @@ class server():
         self.sendResponse(help)
 
     def main(self):
-        print "main started"
+        print "Server started"
         self.thread = threading.Thread(target=self.readSocket)
         self.thread.setDaemon(True)
         self.thread.start()
@@ -146,10 +166,11 @@ if __name__ == "__main__":
     server.main()
 #    server.call_arduino("COM26")
     server.call_arduino("/dev/cu.usbmodem411")
+#    server.call_arduino("/dev/cu.usbserial-A901OFEZ")
 
     while True:
         try:
-            time.sleep(1)
+            time.sleep(0.1)
         except (KeyboardInterrupt, SystemExit):
              break
         except:

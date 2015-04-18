@@ -1,0 +1,22 @@
+{
+    "extensionName": "Arduino",
+    "extensionPort": 8099,
+    "blockSpecs": [
+        [" ", "digital %m.outDPins on", "digitalWriteOn", "D13", "true"],
+        [" ", "digital %m.outDPins off", "digitalWriteOn", "D13", "false"],
+        [" ", "analog %m.outDPins value %n", "analogWrite", "D5", "100"],
+        [" ", "tone D9 value %n","tone","220"],
+        ["b", "sensor %m.inDPins pressed?", "digitalRead", "A2"],
+        ["r", "value of sensor %m.inAPins", "analogRead", "A0"],
+        [" ", "motor %m.servoPins angle %n", "servoangle","D7","180"],
+        [" ", "motor %m.servoPins off","servodetach","D7"]
+    ],
+    "menus": {
+      "outDPins": ["D10","D11","D13"],
+      "outAPins": ["D5","D6"],
+      "ServoPins": ["D7","D8","D12"],
+      "inAPins": ["A0", "A1", "A2", "A3", "A4" ,"A5"],
+      "inDPins": ["D2", "D3", "D4"]
+    },
+    "type": "serial"
+}
