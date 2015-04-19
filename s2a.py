@@ -126,8 +126,8 @@ class s2a:
 
     def main(self):
         app = wx.App()
-        #self.frame = wx.Frame(None, wx.ID_ANY, u'S2A',size=(300,220))
-        self.frame = wx.Frame(None, wx.ID_ANY, u'S2A')
+        self.frame = wx.Frame(None, wx.ID_ANY, u'S2A',size=(300,250))
+        #self.frame = wx.Frame(None, wx.ID_ANY, u'S2A')
 
         application = wx.App()
 
