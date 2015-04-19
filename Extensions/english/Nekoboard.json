@@ -1,0 +1,15 @@
+{
+    "extensionName": "Nekoboard",
+    "extensionPort": 9000,
+    "blockSpecs": [
+      ["r", "slider","slider"],
+      ["r", "brightness", "brightness"],
+      ["r", "sound", "sound"],
+      ["b", "button pressed？","button"],
+      [" ", "LED on", "ledon"],
+      [" ", "LED off", "ledoff"]
+    ],
+    "menus": {
+    },
+    "type": "serial"
+}

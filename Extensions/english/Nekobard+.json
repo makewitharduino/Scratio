@@ -1,0 +1,28 @@
+{
+    "extensionName": "Nekoboard+",
+    "extensionPort": 9001,
+    "blockSpecs": [
+      ["r", "slider","slider"],
+      ["r", "brightness", "brightness"],
+      ["r", "sound", "sound"],
+      ["b", "button pressed？","button"],
+      [" ", "LED on", "ledon",],
+      [" ", "LED off", "ledoff"],
+      [" ", "digital %m.outDPins on", "digitalWriteOn", "D13"],
+      [" ", "digital %m.outDPins of", "digitalWriteOff", "D13"],
+      [" ", "analog %m.outAPins value %n", "analogWrite", "D5", "100"],
+      [" ", "tone D9 value %n","tone","220"],
+      ["r", "value of sensor %m.inAPins", "analogRead", "A0"],
+      ["b", "sensor %m.inDPins pressed?", "digitalRead", "D2"],
+      [" ", "motor %m.servoPins angle %n", "servoangle","D7","180"],
+      [" ", "motor %m.servoPins off","servodetach","D7"]
+    ],
+    "menus": {
+      "outDPins": ["D10","D11","D13"],
+      "outAPins": ["D5","D6"],
+      "servoPins": ["D7","D8","D12"],
+      "inAPins": ["A0", "A1", "A2", "A3"],
+      "inDPins": ["D2", "D3", "D4"],
+    },
+    "type": "serial"
+}

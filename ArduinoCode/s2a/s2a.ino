@@ -7,7 +7,7 @@
 #define SERVO0 7
 #define SERVO1 8
 #define SERVO2 12
-#define WAIT_TIME  30  //30ms
+#define WAIT_TIME  10  //10ms
 #define NCOM  5  //D,T,A,SA,SD
 #define COM_SA  0
 #define COM_SD  1

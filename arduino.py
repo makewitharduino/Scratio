@@ -44,7 +44,6 @@ class arduino():
                     #read value of analog pin
                     if line.find('A') != -1:
                         self.ap = line[line.find('A')+1:].split(',')
-                time.sleep(0.01)
             except:
                 break
 

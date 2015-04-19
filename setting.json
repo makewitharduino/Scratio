@@ -1,12 +1,19 @@
 {
   "version":"0.2",
+  "extensions":{
+    "Arduino":"8099",
+    "Nakoboard": "9000",
+    "Nakoboard+": "9001"
+  },
   "en":{
+    "extension": "Extension to use",
     "connecting":"Connecting",
     "connect":"Connect",
     "serial":"Serial Port",
     "site":"http://okhiroyuki.github.io/S2A/index.html"
   },
   "ja":{
+    "extension":"使用する拡張機能",
     "connecting":"接続中",
     "connect":"接続",
     "serial":"シリアルポート",

@@ -1,0 +1,28 @@
+{
+    "extensionName": "ねこぼーど+",
+    "extensionPort": 9001,
+    "blockSpecs": [
+      ["r", "スライダー","slider"],
+      ["r", "明るさ", "brightness"],
+      ["r", "マイクの音", "sound"],
+      ["b", "ボタンが押された？","button"],
+      [" ", "LEDを光らせる", "ledon",],
+      [" ", "LEDを消す", "ledoff"],
+      [" ", "デジタル %m.outDPins オン", "digitalWriteOn", "D13"],
+      [" ", "デジタル %m.outDPins オフ", "digitalWriteOff", "D13"],
+      [" ", "アナログ %m.outAPins 値 %n", "analogWrite", "D5", "100"],
+      [" ", "音を鳴らす D9 音色 %n","tone","220"],
+      ["r", "センサーの値 %m.inAPins", "analogRead", "A0"],
+      ["b", "センサー %m.inDPins 押された？", "digitalRead", "D2"],
+      [" ", "モーター %m.servoPins 角度 %n", "servoangle","D7","180"],
+      [" ", "モーター %m.servoPins 止める","servodetach","D7"]
+    ],
+    "menus": {
+      "outDPins": ["D10","D11","D13"],
+      "outAPins": ["D5","D6"],
+      "servoPins": ["D7","D8","D12"],
+      "inAPins": ["A0", "A1", "A2", "A3"],
+      "inDPins": ["D2", "D3", "D4"],
+    },
+    "type": "serial"
+}

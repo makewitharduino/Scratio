@@ -1,0 +1,22 @@
+{
+    "extensionName": "アルディーノ",
+    "extensionPort": 8099,
+    "blockSpecs": [
+        [" ", "デジタル %m.outDPins オン", "digitalWriteOn", "D13"],
+        [" ", "デジタル %m.outDPins オフ", "digitalWriteOff", "D13"],
+        [" ", "アナログ %m.outAPins あたい %n", "analogWrite", "D5", "100"],
+        [" ", "おとをならす D9 ねいろ %n","tone","220"],
+        ["b", "センサー %m.inDPins がおされた？", "digitalRead", "D2"],
+        ["r", "センサーのあたい %m.inAPins", "analogRead", "A0"],
+        [" ", "モーター %m.servoPins かくど %n", "servoangle","D7","180"],
+        [" ", "モーター %m.servoPins とめる","servodetach","D7"]
+    ],
+    "menus": {
+      "outDPins": ["D10","D11","D13"],
+      "outAPins": ["D5","D6"],
+      "servoPins": ["D7","D8","D12"],
+      "inAPins": ["A0", "A1", "A2", "A3", "A4" ,"A5"],
+      "inDPins": ["D2", "D3", "D4"]
+    },
+    "type": "serial"
+}

@@ -10,7 +10,7 @@ import webbrowser
 class s2a:
     def __init__(self):
         self.oflg = 0
-        self.port = ""
+        self.selectflg = [0,0]
         self.lang = 'ja'
         self.getportlist()
         self.openjson()
@@ -41,8 +41,12 @@ class s2a:
 
         return self.ports
 
+    def getExtensionlist(self):
+        self.extensions = []
+        self.extensions = self.jsonData[u"extensions"]
+
     def connectServer(self):
-        self.server = server(8099)
+        self.server = server(self.sock_port)
         self.server.main()
         self.server.call_arduino(self.port)
 
@@ -56,10 +60,6 @@ class s2a:
             self.button.SetLabel(self.jsonData[self.lang][u"connect"])
             self.oflg = 0
 
-    def listbox_select(self,event):
-        obj = event.GetEventObject()
-        self.port = obj.GetStringSelection()
-
     def selectMenu(self,event):
         val = event.GetId()
 
@@ -68,7 +68,8 @@ class s2a:
                 self.lang = 'ja'
             else:
                 self.lang = 'en'
-            self.s_text.SetLabel(self.jsonData[self.lang][u"serial"])
+            self.s_text_extension.SetLabel(self.jsonData[self.lang][u"extension"])
+            self.s_text_serial.SetLabel(self.jsonData[self.lang][u"serial"])
             if self.oflg == 0:
                 self.button.SetLabel(self.jsonData[self.lang][u"connect"])
             else:
@@ -78,19 +79,7 @@ class s2a:
         elif val == 4:
             wx.MessageBox(self.jsonData['version'], 'Version', wx.OK)
 
-
-    def main(self):
-        app = wx.App()
-        self.frame = wx.Frame(None, wx.ID_ANY, u'S2A',size=(300,200))
-
-        application = wx.App()
-
-        icon = wx.Icon(self.icon,wx.BITMAP_TYPE_ICO,16,16)
-
-        self.panel = wx.Panel(self.frame,wx.ID_ANY)
-        self.panel.SetBackgroundColour("#AFAFAF")
-
-        #add menu
+    def addMenu(self):
         menu_lang = wx.Menu()
         self.menu_about = wx.Menu()
         self.menu_bar = wx.MenuBar()
@@ -104,18 +93,68 @@ class s2a:
         self.menu_about.Append(4,u"Version Info")
         self.frame.Bind(wx.EVT_MENU,self.selectMenu)
 
-        self.s_text = wx.StaticText(self.panel,wx.ID_ANY,self.jsonData[self.lang][u"serial"])
+    def addExtentionComboBox(self):
+        self.getExtensionlist()
+        element_array = self.extensions.keys()
+        self.combobox_extensions = wx.ComboBox(self.panel,wx.ID_ANY,"選択してください",choices=element_array,style=wx.CB_READONLY)
+        self.combobox_extensions.Bind(wx.EVT_COMBOBOX,self.extentions_combobox_select)
 
+    def extentions_combobox_select(self,event):
+        val = event.GetEventObject().GetStringSelection()
+        self.sock_port = int(self.extensions[val])
+        self.selectflg[1] = 1
+        if self.selectflg[0] == 1:
+            self.button.Enable()
+
+    def addPortList(self):
         element_array = self.ports
-        listbox = wx.ListBox(self.panel,wx.ID_ANY,choices=element_array,style=wx.LB_SINGLE)
-        listbox.Bind(wx.EVT_LISTBOX,self.listbox_select)
+        self.combobox_ports = wx.ComboBox(self.panel,wx.ID_ANY,"選択してください",choices=element_array,style=wx.CB_READONLY)
+        self.combobox_ports.Bind(wx.EVT_COMBOBOX,self.ports_combobox_select)
 
+    def ports_combobox_select(self,event):
+        obj = event.GetEventObject()
+        self.port = obj.GetStringSelection()
+        self.selectflg[0] = 1
+        if self.selectflg[1] == 1:
+            self.button.Enable()
+
+    def addConnectButton(self):
         self.button = wx.Button(self.panel,wx.ID_ANY,self.jsonData[self.lang][u"connect"])
         self.button.Bind(wx.EVT_BUTTON,self.click_button)
+        self.button.Disable()
+
+    def main(self):
+        app = wx.App()
+        self.frame = wx.Frame(None, wx.ID_ANY, u'S2A',size=(300,220))
+
+        application = wx.App()
+
+        icon = wx.Icon(self.icon,wx.BITMAP_TYPE_ICO,16,16)
+
+        self.panel = wx.Panel(self.frame,wx.ID_ANY)
+        self.panel.SetBackgroundColour("#AFAFAF")
+
+        #add menu
+        self.addMenu()
+
+        #add Extention selector
+        self.addExtentionComboBox()
+
+        #add Serial Port selector
+        self.s_text_extension = wx.StaticText(self.panel,wx.ID_ANY,self.jsonData[self.lang][u"extension"])
+        self.s_text_serial = wx.StaticText(self.panel,wx.ID_ANY,self.jsonData[self.lang][u"serial"])
+
+        #add Port list
+        self.addPortList()
+
+        #add connect button
+        self.addConnectButton()
 
         layout = wx.BoxSizer(wx.VERTICAL)
-        layout.Add(self.s_text,flag=wx.GROW|wx.LEFT|wx.TOP,border=10)
-        layout.Add(listbox,flag=wx.GROW|wx.ALL,border=10)
+        layout.Add(self.s_text_extension,flag=wx.GROW|wx.LEFT|wx.TOP,border=10)
+        layout.Add(self.combobox_extensions,flag=wx.GROW|wx.ALL,border=10)
+        layout.Add(self.s_text_serial,flag=wx.GROW|wx.LEFT|wx.TOP,border=10)
+        layout.Add(self.combobox_ports,flag=wx.GROW|wx.ALL,border=10)
         layout.Add(self.button,flag=wx.GROW|wx.ALIGN_CENTER|wx.LEFT|wx.RIGHT|wx.BOTTOM,border=10)
 
         self.frame.SetIcon(icon)
