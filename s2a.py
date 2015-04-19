@@ -1,4 +1,5 @@
-# coding: utf-8
+# coding=utf-8
+
 from server import *
 import serial.tools.list_ports
 import wx
@@ -77,14 +78,14 @@ class s2a:
         elif val == 3:
             webbrowser.open_new_tab(self.jsonData[self.lang][u"site"])
         elif val == 4:
-            wx.MessageBox(self.jsonData['version'], 'Version', wx.OK)
+            wx.MessageBox(self.jsonData[u'version'], 'Version', wx.OK)
 
     def addMenu(self):
         menu_lang = wx.Menu()
         self.menu_about = wx.Menu()
         self.menu_bar = wx.MenuBar()
 
-        self.menu_bar.Append(menu_lang,u"Lang")
+        self.menu_bar.Append(menu_lang,u"View")
         menu_lang.AppendRadioItem(1,u"日本語")
         menu_lang.AppendRadioItem(2,u"English")
 
@@ -96,7 +97,7 @@ class s2a:
     def addExtentionComboBox(self):
         self.getExtensionlist()
         element_array = self.extensions.keys()
-        self.combobox_extensions = wx.ComboBox(self.panel,wx.ID_ANY,"選択してください",choices=element_array,style=wx.CB_READONLY)
+        self.combobox_extensions = wx.ComboBox(self.panel,wx.ID_ANY,u"select extension",choices=element_array,style=wx.CB_READONLY)
         self.combobox_extensions.Bind(wx.EVT_COMBOBOX,self.extentions_combobox_select)
 
     def extentions_combobox_select(self,event):
@@ -108,7 +109,7 @@ class s2a:
 
     def addPortList(self):
         element_array = self.ports
-        self.combobox_ports = wx.ComboBox(self.panel,wx.ID_ANY,"選択してください",choices=element_array,style=wx.CB_READONLY)
+        self.combobox_ports = wx.ComboBox(self.panel,wx.ID_ANY,u"select Extension",choices=element_array,style=wx.CB_READONLY)
         self.combobox_ports.Bind(wx.EVT_COMBOBOX,self.ports_combobox_select)
 
     def ports_combobox_select(self,event):

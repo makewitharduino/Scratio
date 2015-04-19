@@ -1,4 +1,5 @@
-# coding: utf-8
+# coding=utf-8
+
 import serial
 import time
 import threading
@@ -25,7 +26,7 @@ class arduino():
         return self.oflg
 
     def main(self):
-        print "Arduino started"
+        print u"Arduino started"
         self.thread = threading.Thread(target=self.readStatus)
         self.thread.setDaemon(True)
         self.thread.start()
@@ -59,7 +60,7 @@ class arduino():
         self.ser.write(msg)
 
     def close(self):
-        print "port close()"
+        print u"port close()"
         self.stop_event.set()
         self.ser.close()
         self.oflog = 0

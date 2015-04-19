@@ -1,5 +1,4 @@
-# coding: utf-8
-# cx_Freeze 用セットアップファイル
+# coding=utf-8
 
 import sys
 import json
@@ -17,7 +16,7 @@ name = "S2A"
 version = getVersion()
 description = 'Arduino Extention for Scratch2.0 Offline Editor'
 author = '@okiroyuki'
-url = 'http://okhiroyuki.github.io/S2A/'
+url ='http://okhiroyuki.github.io/S2A/'
 
 # 変更しない
 upgrade_code = '{2648A2D6-AAFB-3E05-BC7A-2BC86636CDC9}'

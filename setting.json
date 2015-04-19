@@ -1,5 +1,5 @@
 {
-  "version":"0.2",
+  "version":"0.3",
   "extensions":{
     "Arduino":"8099",
     "Nakoboard": "9000",
