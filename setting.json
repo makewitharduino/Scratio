@@ -2,8 +2,8 @@
   "version":"0.3",
   "extensions":{
     "Arduino":"8099",
-    "Nakoboard": "9000",
-    "Nakoboard+": "9001"
+    "Nekoboard": "9000",
+    "Nekoboard+": "9001"
   },
   "en":{
     "extension": "Extension to use",
