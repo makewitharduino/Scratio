@@ -47,25 +47,30 @@
           <li><a href="#howto">使い方</a></li>
           <li><a href="#detail">詳細</a></li>
           <li><a href="#protocol">通信方法</a></li>
+          <li><a href="#changelog">リリースノート</a></li>
           <li><a href="#future">S2Aの今後</a></li>
           <li><a href="#software">ソフトウェア</a></li>
         </ol>
 
         <h3 id="interface">画面イメージ</h3>
-        <h4>Scratch2.0 オフラインエディタでのS2Aブロック (ベースブロック)</h4>
-        <p>S2Aブロックは、Arduinoを基本的な動きを操作できます。</p>
-        <img src="../images/scratch2_ja.png" width="100%" alt="">
+        <h4>Scratch2.0 オフラインエディタ</h4>
+        <h5>Arduinoブロック</h5>
+        <img src="../images/arduino.png" width="100%" alt="">
+        <h5>Nekoboardブロック</h5>
+        <img src="../images/nekoboard.png" width="100%" alt="">
+        <h5>Nekoboar+ブロック</h5>
+        <img src="../images/nekoboard+.png" width="100%" alt="">
         <h4>S2A.app (S2A.exe)</h4>
         <p>S2A.app (S2A.exe) は、Scratch2.0 オフラインエディタとArduinoを繋げるソフトです。</p>
-        <img src="../images/S2A.png" alt="">
+        <img src="../images/S2A_03.png" alt="">
 
         <h3 id="howto">使い方</h3>
         <ol>
-          <li><code><a href="https://dl.dropboxusercontent.com/u/140665/S2A.zip">S2A.zip</a></code> をダウンロードして、解凍してください。</li>
+          <li><code><a href="https://github.com/okhiroyuki/S2A/releases/download/v0.3/S2A-0.3.zip">S2A.zip</a></code> をダウンロードして、解凍してください。</li>
           <li>ArduinoとPCをUSBで繋いでください。</li>
-          <li><code>ArduinoCode/s2a/s2a.ino</code> をArduino IDEを使って、Arduinoにアップロードしてください。</li>
+          <li><code>ArduinoCode/s2a/s2a.ino</code> をArduino IDEを使って、Arduinoにアップロードしてください。<br/>（nekoboardは、IDEのボードをArduino Duemilanoveに変更が必要です。）</li>
           <li><code>App/S2A-0.1-win32.msi</code>をインストールしてください。（Windowsのみ）</li>
-          <li><code>C:\Program Files(x86)\s2a.exe (windows)</code> あるいは <code>App/s2a.app (Mac)</code>を起動してください。</li>
+          <li><code>デスクトップ上にあるs2a (windows)</code> あるいは <code>App/s2a.app (Mac)</code>を起動してください。</li>
           <li>arduinoに繋がっているシリアルポートを選択して、接続ボタンを押してください。</li>
           <li><code>Scratch 2.0 オフラインエディタ</code>を起動した状態で、メニューにある"ファイル"をシフトキーを押しながらクリックシてください。そうすると、"Import experimental HTTP extension"が表示されます。</li>
           <li>"Import experimental HTTP extension"をクリックし、<code>Extensions/s2a_base.json</code>を読み込んでください。</li>
@@ -79,29 +84,73 @@
           <li>英語</li>
         </ul>
         <h4>サポートしているArduinoの種類</h4>
-        <p>S2Aは、Arudino Unoで動作します。他のボードはテストしていませんが、Uno同様動作すると思います。</p>
-        <h4>操作できる内容</h4>
-        <p>S2A 基本ブロックは次のような制御が可能です。</p>
+        <ul>
+          <li><a href="https://www.switch-science.com/catalog/789/">Arduino Uno</a></li>
+          <li><a href="https://www.switch-science.com/catalog/1000/">nekoBoard</a></li>
+        </ul>
+        <p>なお、Arudinoのその他のボードは、テストしていませんが、Uno同様動作すると思います。</p>
+        <h4>S2Aで操作できる内容</h4>
+        <h5>Arduino</h5>
         <ul>
           <li>６つのアナログ入力 (すべてのアナログピン)</li>
-          <li>６つのデジタル入力 (デジタルピン 2, 4, 7, 8, 13)</li>
-          <li>６つのアナログ出力 (デジタルピン 3, 5, 6, 9, 10, 11)</li>
-          <li>６つのデジタル出力 (デジタルピン 3, 5, 6, 9, 10, 11)</li>
-          <li>６つのTone関数 (デジタルピン 3, 5, 6, 9, 10, 11)</li>
+          <li>２つのアナログ出力 (デジタルピン 5, 6)</li>
+          <li>３つのデジタル入力 (デジタルピン 2, 3, 4)</li>
+          <li>３つのデジタル出力 (デジタルピン 10, 11, 13)</li>
+          <li>３つのサーボ制御 (デジタルピン 7, 8, 12)</li>
+          <li>１つのTone関数 (デジタルピン 9)</li>
         </ul>
         <p>このうち、デジタル入力はすべてプルアップしています。</p>
-
+        <h5>nekoboard</h5>
+        <p>nekoboardに付いている各種センサーが使用できます。</p>
+        <ul>
+          <li>スライダー</li>
+          <li>明るさ(照度センサー)</li>
+          <li>マイク</li>
+          <li>ボタン</li>
+          <li>LEDのON・OFF</li>
+        </ul>
+        <h5>nekoboard+</h5>
+        <p>nekoboardのピンを拡張することで、Arduinoと同様のブロックが使用できます。<br/>当然、nekoboardに付いている各種センサーも使用できます。</p>
+        <li>スライダー</li>
+        <li>明るさ(照度センサー)</li>
+        <li>マイク</li>
+        <li>ボタン</li>
+        <li>LEDのON・OFF</li>
+        <li>４つのアナログ入力 (アナログピン A0,A1,A2,A3)</li>
+        <li>２つのアナログ出力 (デジタルピン 5, 6)</li>
+        <li>３つのデジタル入力 (デジタルピン 2, 3, 4)</li>
+        <li>３つのデジタル出力 (デジタルピン 10, 11, 13)</li>
+        <li>３つのサーボ制御 (デジタルピン 7, 8, 12)</li>
+        <li>１つのTone関数 (デジタルピン 9)</li>
+        <p>このうち、デジタル入力はすべてプルアップしています。</p>
         <h3 id="protocol">通信方法</h3>
         <p>S4A は、<a href="http://wiki.scratch.mit.edu/w/images/ExtensionsDoc.HTTP-9-11.pdf">the Scratch HTTP Extension</a>で提供されている機能を活用しています。</p>
+
+        <h3 id="changelog">リリースノート</h3>
+        <ul>
+          <li>Ver0.1：S2Aの公開</li>
+          <li>Ver0.2</li>
+          <ol>
+            <li>メニューバーの追加</li>
+            <li>言語選択（日本語、英語）に対応</li>
+            <li>デスクトップショートカットの追加（Windows）</li>
+            <li>アイコンの追加（Windows）</li>
+            <li>インストーラの上書きに対応（Windows）</li>
+          </ol>
+          <li>Ver0.3</li>
+          <ol>
+            <li>対応ボードにnekoboardを追加</li>
+            <li>Arduinoの制御内容を変更</li>
+            <li>ボードの選択に対応</li>
+          </ol>
+        </ul>
 
         <h3 id="future">S2Aの今後</h3>
         <p>独自で作成した関数を呼び出せるカスタムモードを追加したいと考えています。可能であれば、<a href="http://code.makewitharduino.com">BlocklyDuino</a>との連携もしていきます。</p>
 
-        </ol>
-
       <h3 id="software">ソフトウェア</h3>
       <ul>
-        <li><a href="https://dl.dropboxusercontent.com/u/140665/S2A.zip">S2A.zip</a>
+        <li><a href="https://github.com/okhiroyuki/S2A/releases/download/v0.3/S2A-0.3.zip">S2A.zip</a>
         </li>
         <li><a href="https://scratch.mit.edu/scratch2download/">Scratch 2.0 オフラインエディタ</a>
         </li>
