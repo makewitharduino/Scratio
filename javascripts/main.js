@@ -10,3 +10,10 @@ function change_lang(obj){
   console.log(path);
   window.location = loc.protocol + '//' + loc.host + path + '/index.html';
 }
+
+$(document).ready(function(){
+  $('.bxslider').bxSlider({
+    captions: true
+  });
+});
+
