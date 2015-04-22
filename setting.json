@@ -1,9 +1,10 @@
 {
-  "version":"0.3",
+  "version":"0.4",
   "extensions":{
     "Arduino":"8099",
     "Nekoboard": "9000",
-    "Nekoboard+": "9001"
+    "Nekoboard+": "9001",
+    "CapSensor": "9002"
   },
   "en":{
     "extension": "Extension to use",

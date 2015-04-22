@@ -61,12 +61,19 @@ class server():
         else:
             return "false"
 
+    def getCapState(self,state):
+        if int(state) == 1:
+            return "true"
+        else:
+            return "false"
+
     def doCommand(self,header):
         if self.ser.checkOpenflg() == 0:
             return
         if header == 'poll':
             dp_in = self.ser.getDigitalState()
             ap = self.ser.getAnalogState()
+            cap_in = self.ser.getCapState()
             msg = ""
             for num in range(len(ap)):
                 if  ap[num] != -1:
@@ -85,6 +92,10 @@ class server():
                     if num == 0:
                         msg += 'button ' + self.getState(dp_in[num]) + chr(10)
                     msg += 'digitalRead/D' + str(num+2) + ' '+ self.getState(dp_in[num]) + chr(10)
+            for num in range(len(cap_in)):
+                if cap_in[num] != -1:
+                    msg += 'capRead/C' + str(num) + ' ' + self.getCapState(cap_in[num]) + chr(10)
+            print msg
             if len(msg) > 0:
                 self.sendResponse(msg)
         elif header == 'reset_all':

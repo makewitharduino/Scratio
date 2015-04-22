@@ -1,0 +1,11 @@
+{
+    "extensionName": "静電容量センサー",
+    "extensionPort": 9002,
+    "blockSpecs": [
+        ["b", "センサー %m.inCapPins を触った？", "capRead", "C0"]
+    ],
+    "menus": {
+      "inCapPins": ["C0", "C1", "C2", "C3", "C4" ,"C5", "C6", "C7", "C8", "C9" , "C10" ,"C11"]
+    },
+    "type": "serial"
+}

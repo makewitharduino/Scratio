@@ -12,6 +12,7 @@ class arduino():
         self.dp_out = [-1] * 3   #d10,d11,d13
         self.dp_in = [-1] * 3    #d2,d3,d4
         self.ap = [-1] * 7   #A0,A1,A2,A3,A4,A5,A6
+        self.cap_in = [-1]*12  #caps sensor
         self.oflg = 0
 
     def open(self,port,baudrate):
@@ -45,6 +46,12 @@ class arduino():
                     #read value of analog pin
                     if line.find('A') != -1:
                         self.ap = line[line.find('A')+1:].split(',')
+                    #read value of Capactive Sensor MPR121
+                    if line.find('C') != -1:
+                        index = line.find('C')
+                        dstr = line[index+1:index+13]
+                        for x in range(0,12):
+                            self.cap_in[x] = dstr[x]
             except:
                 break
 
@@ -53,6 +60,9 @@ class arduino():
 
     def getAnalogState(self):
         return self.ap
+
+    def getCapState(self):
+        return self.cap_in
 
     def sendCommand(self,command,pin,val):
         msg = ""
@@ -69,8 +79,8 @@ class arduino():
 if __name__ == "__main__":
     ser = arduino()
 #    ser.open("COM26",115200)
-#    ser.open("/dev/cu.usbmodem411",115200)
-    ser.open("/dev/cu.usbserial-A901OFEZ",115200)
+    ser.open("/dev/cu.usbmodem411",115200)
+#    ser.open("/dev/cu.usbserial-A901OFEZ",115200)
     ser.main()
 
     while True:
