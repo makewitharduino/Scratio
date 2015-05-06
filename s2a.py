@@ -15,7 +15,7 @@ class s2a:
         self.lang = 'ja'
         self.getportlist()
         self.openjson()
-        self.icon = self.find_data_file('images/app_icon.ico')
+        self.icon = self.find_data_file('images/icon.ico')
 
     def find_data_file(self,filename):
         if getattr(sys, 'frozen', False):
