@@ -56,14 +56,17 @@ bdist_msi_options = {'upgrade_code': upgrade_code,
                     'data': msi_data
 }
 
+bdist_mac_options = {"iconfile": 'images/icon.icns'}
+
 options = {
     'build_exe': build_exe_options,
-    'bdist_msi': bdist_msi_options
+    'bdist_msi': bdist_msi_options,
+    'bdist_mac': bdist_mac_options
 }
 
 # exeの情報
 base = 'Win32GUI' if sys.platform == 'win32' else None
-icon = 'images/favicon.ico'
+icon = 'images/icon.ico'
 
 # exe にしたい python ファイルを指定
 exe = Executable(script = 's2a.py',
