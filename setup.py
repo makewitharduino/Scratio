@@ -66,7 +66,7 @@ options = {
 
 # exeの情報
 base = 'Win32GUI' if sys.platform == 'win32' else None
-icon = 'images/icon.ico'
+icon = 'images/icon_256x256.ico'
 
 # exe にしたい python ファイルを指定
 exe = Executable(script = 's2a.py',

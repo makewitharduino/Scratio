@@ -15,7 +15,7 @@ class s2a:
         self.lang = 'ja'
         self.getportlist()
         self.openjson()
-        self.icon = self.find_data_file('images/icon.ico')
+        self.icon = self.find_data_file('images/icon_256x256.ico')
 
     def find_data_file(self,filename):
         if getattr(sys, 'frozen', False):
@@ -131,7 +131,7 @@ class s2a:
 
         application = wx.App()
 
-        icon = wx.Icon(self.icon,wx.BITMAP_TYPE_ICO,16,16)
+        icon = wx.Icon(self.icon,wx.BITMAP_TYPE_ICO)
 
         self.panel = wx.Panel(self.frame,wx.ID_ANY)
         self.panel.SetBackgroundColour("#AFAFAF")
