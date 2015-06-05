@@ -95,7 +95,6 @@ class server():
             for num in range(len(cap_in)):
                 if cap_in[num] != -1:
                     msg += 'capRead/C' + str(num) + ' ' + self.getCapState(cap_in[num]) + chr(10)
-            print msg
             if len(msg) > 0:
                 self.sendResponse(msg)
         elif header == 'reset_all':
