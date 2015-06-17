@@ -12,11 +12,11 @@ def getVersion():
     return jsonData['version']
 
 
-name = "S2A"
+name = "Scratio"
 version = getVersion()
 description = 'Arduino Extention for Scratch2.0 Offline Editor'
 author = '@okiroyuki'
-url ='http://okhiroyuki.github.io/S2A/'
+url ='http://okhiroyuki.github.io/Scratio/'
 
 # 変更しない
 upgrade_code = '{2648A2D6-AAFB-3E05-BC7A-2BC86636CDC9}'
@@ -27,9 +27,9 @@ upgrade_code = '{2648A2D6-AAFB-3E05-BC7A-2BC86636CDC9}'
 shortcut_table = [
     ("DesktopShortcut",        # Shortcut
      "DesktopFolder",          # Directory_
-     "S2A",                    # Name
+     "Scratio",                    # Name
      "TARGETDIR",              # Component_
-     "[TARGETDIR]\s2a.exe",# Target
+     "[TARGETDIR]\Scratio.exe",# Target
      None,                     # Arguments
      None,                     # Description
      None,                     # Hotkey
@@ -69,7 +69,7 @@ base = 'Win32GUI' if sys.platform == 'win32' else None
 icon = 'images/icon_256x256.ico'
 
 # exe にしたい python ファイルを指定
-exe = Executable(script = 's2a.py',
+exe = Executable(script = 'scratio.py',
                  base = base,
                  icon = icon,
                  copyDependentFiles = True

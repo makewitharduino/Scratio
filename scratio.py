@@ -8,7 +8,7 @@ import os
 import sys
 import webbrowser
 
-class s2a:
+class scratio:
     def __init__(self):
         self.oflg = 0
         self.selectflg = [0,0]
@@ -126,8 +126,8 @@ class s2a:
 
     def main(self):
         app = wx.App()
-        self.frame = wx.Frame(None, wx.ID_ANY, u'S2A',size=(300,250))
-        #self.frame = wx.Frame(None, wx.ID_ANY, u'S2A')
+        self.frame = wx.Frame(None, wx.ID_ANY, u'Scratio',size=(300,250))
+        #self.frame = wx.Frame(None, wx.ID_ANY, u'Scratio')
 
         application = wx.App()
 
@@ -170,5 +170,5 @@ class s2a:
         self.oflg = 0
 
 if __name__ == '__main__':
-    s2a = s2a()
-    s2a.main()
+    scratio = scratio()
+    scratio.main()
