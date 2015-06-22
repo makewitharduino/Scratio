@@ -27,7 +27,7 @@ class arduino():
         return self.oflg
 
     def main(self):
-        print u"Arduino started"
+        #print u"Arduino started"
         self.thread = threading.Thread(target=self.readStatus)
         self.thread.setDaemon(True)
         self.thread.start()
@@ -53,6 +53,7 @@ class arduino():
                         for x in range(0,12):
                             self.cap_in[x] = dstr[x]
             except:
+                self.oflg = 0
                 break
 
     def getDigitalState(self):
@@ -70,10 +71,10 @@ class arduino():
         self.ser.write(msg)
 
     def close(self):
-        print u"port close()"
+        #print u"port close()"
         self.stop_event.set()
         self.ser.close()
-        self.oflog = 0
+        self.oflg = 0
 
 
 if __name__ == "__main__":
@@ -92,8 +93,8 @@ if __name__ == "__main__":
         except (KeyboardInterrupt, SystemExit):
              break
         except:
-            print "error"
+            #print "error"
             break
 
     ser.close()
-    print "stop"
+    #print "stop"
