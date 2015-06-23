@@ -100,6 +100,7 @@ class server():
                 if cap_in[num] != -1:
                     msg += 'capRead/C' + str(num) + ' ' + self.getCapState(cap_in[num]) + chr(10)
             if len(msg) > 0:
+                #print msg
                 self.sendResponse(msg)
         elif header == 'reset_all':
                 #moControl.getArduino().resetAll();
@@ -168,6 +169,7 @@ class server():
                     msg += msg;
             self.htmlRequest(msg)
             self.client_sock.close()
+            time.sleep(0.1)
 
     def close(self):
         #print "server close()"

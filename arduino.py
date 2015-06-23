@@ -7,7 +7,6 @@ import threading
 class arduino():
 
     def __init__(self):
-        self.stop_event = threading.Event()
         self.ser = serial.Serial()
         self.dp_out = [-1] * 3   #d10,d11,d13
         self.dp_in = [-1] * 3    #d2,d3,d4
@@ -34,27 +33,27 @@ class arduino():
 
     def readStatus(self):
         while True:
-            try:
-                line = self.ser.readline().rstrip('\r\n')
-                if len(line) > 0:
-                    #read state of digital Pin
-                    if line.find('D') != -1:
-                        index = line.find('D')
-                        dstr = line[index+1:index+4]
-                        for x in range(0,3):
-                            self.dp_in[x] = dstr[x]
-                    #read value of analog pin
-                    if line.find('A') != -1:
-                        self.ap = line[line.find('A')+1:].split(',')
-                    #read value of Capactive Sensor MPR121
-                    if line.find('C') != -1:
-                        index = line.find('C')
-                        dstr = line[index+1:index+13]
-                        for x in range(0,12):
-                            self.cap_in[x] = dstr[x]
-            except:
-                self.oflg = 0
+            line = self.ser.readline().rstrip('\r\n')
+            #print len(line)
+            if len(line) > 0:
+                #read state of digital Pin
+                if line.find('D') != -1:
+                    index = line.find('D')
+                    dstr = line[index+1:index+4]
+                    for x in range(0,3):
+                        self.dp_in[x] = dstr[x]
+                #read value of analog pin
+                if line.find('A') != -1:
+                    self.ap = line[line.find('A')+1:].split(',')
+                #read value of Capactive Sensor MPR121
+                if line.find('C') != -1:
+                    index = line.find('C')
+                    dstr = line[index+1:index+13]
+                    for x in range(0,12):
+                        self.cap_in[x] = dstr[x]
+            else:
                 break
+        self.close()
 
     def getDigitalState(self):
         return self.dp_in
@@ -72,10 +71,9 @@ class arduino():
 
     def close(self):
         #print u"port close()"
-        self.stop_event.set()
-        self.ser.close()
-        self.oflg = 0
-
+        if self.oflg == 1:
+            self.ser.close()
+            self.oflg = 0
 
 if __name__ == "__main__":
     ser = arduino()

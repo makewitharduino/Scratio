@@ -138,7 +138,7 @@ class scratio:
 
     def main(self):
         app = wx.App()
-        self.frame = wx.Frame(None, wx.ID_ANY, u'Scratio',size=(300,275))
+        self.frame = wx.Frame(None, wx.ID_ANY, u'Scratio',size=(300,290))
         #self.frame = wx.Frame(None, wx.ID_ANY, u'Scratio')
 
         application = wx.App()
@@ -182,8 +182,9 @@ class scratio:
         application.MainLoop()
 
     def close(self):
-        self.server.close()
-        self.oflg = 0
+        if self.oflg == 1:
+            self.server.close()
+            self.oflg = 0
 
 if __name__ == '__main__':
     scratio = scratio()
