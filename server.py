@@ -169,7 +169,7 @@ class server():
                     msg += msg;
             self.htmlRequest(msg)
             self.client_sock.close()
-            time.sleep(0.1)
+            #time.sleep(0.1)
 
     def close(self):
         #print "server close()"
