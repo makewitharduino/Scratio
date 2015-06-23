@@ -8,7 +8,7 @@ from arduino import *
 class server():
 
     def __init__(self,port):
-        self.stop_event = threading.Event()
+        self.stop_event = threading.Event() #スレッドを停止させるフラグ
         host = socket.gethostbyname('localhost')
         self.port = port
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -147,32 +147,39 @@ class server():
 
     def main(self):
         #print "Server started"
+        #スレッドの作成と開始
         self.thread = threading.Thread(target=self.readSocket)
         self.thread.setDaemon(True)
         self.thread.start()
 
     def readSocket(self):
-        while True:
+        #while True:
+        while not self.stop_event.is_set():
+            print "hoge"
             try:
                 (self.client_sock, self.client_addr) = self.sock.accept()
             except socket.error:
-                break
+                self.client_sock.close()
+                continue
             msg = ''
             while msg.find('\n') == -1:
-                msg = self.client_sock.recv(1024)
-                if len(msg) < 0:
-                    #print "Socket closed; no HTTP header."
-                    break
-                msg += msg;
+                try:
+                    msg = self.client_sock.recv(1024)
+                except socket.timeout:
+                    self.client_sock.close()
+                    continue
+                if len(msg) > 0:
+                    msg += msg;
 
-            self.htmlRequest(msg)
+            if len(msg) > 0:
+                self.htmlRequest(msg)
             self.client_sock.close()
 
     def close(self):
         #print "server close()"
         self.ser.close()
-        self.stop_event.set()
-        #self.client_sock.close()
+        self.stop_event.set()   #スレッドの停止
+        #self.thread.join()   #スレッドが停止するのを待つ
         self.sock.close()
 
 
