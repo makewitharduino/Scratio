@@ -11,6 +11,7 @@ import webbrowser
 class scratio:
     def __init__(self):
         self.oflg = 0
+        self.sflg = 0
         self.selectflg = [0,0]
         self.lang = 'ja'
         self.getportlist()
@@ -50,6 +51,7 @@ class scratio:
         self.server = server(self.sock_port)
         self.server.main()
         self.server.call_arduino(self.port)
+        self.sflg = 1
 
     def click_button(self,event):
         if self.oflg == 0:
@@ -64,7 +66,8 @@ class scratio:
             self.button2.Enable()
 
     def click_refresh(self,event):
-      self.server.close()
+      if self.sflg == 1:
+          self.server.close()
       self.ports = self.getportlist()
       self.combobox_ports.SetItems(self.ports)
       self.selectflg[0] = 0
