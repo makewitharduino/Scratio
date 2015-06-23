@@ -56,10 +56,18 @@ class scratio:
             self.connectServer()
             self.button.SetLabel(self.jsonData[self.lang][u"connecting"])
             self.oflg = 1
+            self.button2.Disable()
         else:
             self.server.close()
             self.button.SetLabel(self.jsonData[self.lang][u"connect"])
             self.oflg = 0
+            self.button2.Enable()
+
+    def click_refresh(self,event):
+      self.ports = self.getportlist()
+      self.combobox_ports.SetItems(self.ports)
+      self.selectflg[0] = 0
+      self.button.Disable()
 
     def selectMenu(self,event):
         val = event.GetId()
@@ -124,9 +132,13 @@ class scratio:
         self.button.Bind(wx.EVT_BUTTON,self.click_button)
         self.button.Disable()
 
+    def addRefreshButton(self):
+        self.button2 = wx.Button(self.panel,wx.ID_ANY,self.jsonData[self.lang][u"refresh"])
+        self.button2.Bind(wx.EVT_BUTTON,self.click_refresh)
+
     def main(self):
         app = wx.App()
-        self.frame = wx.Frame(None, wx.ID_ANY, u'Scratio',size=(300,250))
+        self.frame = wx.Frame(None, wx.ID_ANY, u'Scratio',size=(300,275))
         #self.frame = wx.Frame(None, wx.ID_ANY, u'Scratio')
 
         application = wx.App()
@@ -150,6 +162,9 @@ class scratio:
         self.addPortList()
 
         #add connect button
+        self.addRefreshButton()
+
+        #add connect button
         self.addConnectButton()
 
         layout = wx.BoxSizer(wx.VERTICAL)
@@ -157,6 +172,7 @@ class scratio:
         layout.Add(self.combobox_extensions,flag=wx.GROW|wx.ALL,border=10)
         layout.Add(self.s_text_serial,flag=wx.GROW|wx.LEFT|wx.TOP,border=10)
         layout.Add(self.combobox_ports,flag=wx.GROW|wx.ALL,border=10)
+        layout.Add(self.button2,flag=wx.GROW|wx.ALIGN_CENTER|wx.LEFT|wx.RIGHT|wx.BOTTOM,border=10)
         layout.Add(self.button,flag=wx.GROW|wx.ALIGN_CENTER|wx.LEFT|wx.RIGHT|wx.BOTTOM,border=10)
 
         self.frame.SetIcon(icon)

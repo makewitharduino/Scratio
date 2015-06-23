@@ -1,5 +1,5 @@
 {
-  "version":"0.5",
+  "version":"0.6",
   "extensions":{
     "Arduino":"8099",
     "Nekoboard": "9000",
@@ -11,13 +11,15 @@
     "connecting":"Connecting",
     "connect":"Connect",
     "serial":"Serial Port",
-    "site":"http://okhiroyuki.github.io/S2A/index.html"
+    "site":"http://okhiroyuki.github.io/S2A/index.html",
+    "refresh":"Port refresh"
   },
   "ja":{
     "extension":"使用する拡張機能",
     "connecting":"接続中",
     "connect":"接続",
     "serial":"シリアルポート",
-    "site":"http://okhiroyuki.github.io/S2A/ja/index.html"
+    "site":"http://okhiroyuki.github.io/S2A/ja/index.html",
+    "refresh":"ポートの更新"
   }
 }

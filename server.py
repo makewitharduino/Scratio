@@ -8,16 +8,17 @@ from arduino import *
 class server():
 
     def __init__(self,port):
-        self.stop_event = threading.Event()
         host = socket.gethostbyname('localhost')
         self.port = port
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.sock.settimeout(1)
         self.sock.bind((host, self.port))
         self.sock.listen(1)
         self.ser = arduino()
+        self.sockflg = 0
 
-        print 'waiting for connection...'
+        #print 'waiting for connection...'
 
     def call_arduino(self,port):
         self.ser = arduino()
@@ -35,12 +36,12 @@ class server():
 
     def htmlRequest(self,header):
         if  header.find('GET ') == -1:
-            print 'Este servidor solo acepta conexiones HTTP GET'
+            #print 'Este servidor solo acepta conexiones HTTP GET'
             return
         i = header.find('HTTP/1')
 
         if i < 0:
-            print 'Cabezera HTTP GET incorracta.'
+            #print 'Cabezera HTTP GET incorracta.'
             return
 
         header = header[5:i-1]
@@ -67,8 +68,11 @@ class server():
         else:
             return "false"
 
+    def checkOpenflg(self):
+      return self.ser.checkOpenflg()
+
     def doCommand(self,header):
-        if self.ser.checkOpenflg() == 0:
+        if self.checkOpenflg() == 0:
             return
         if header == 'poll':
             dp_in = self.ser.getDigitalState()
@@ -99,7 +103,7 @@ class server():
                 self.sendResponse(msg)
         elif header == 'reset_all':
                 #moControl.getArduino().resetAll();
-                print "reset_all"
+                #print "reset_all"
                 self.sendResponse("ok")
         else:
             las = header.split("/")
@@ -133,7 +137,7 @@ class server():
             elif las[0] == 'ledoff':
                 self.ser.sendCommand("D",13,0)
             else:
-                print "else"
+                #print "else"
                 self.sendResponse("ok")
 
     def doHelp(self):
@@ -142,35 +146,35 @@ class server():
         self.sendResponse(help)
 
     def main(self):
-        print "Server started"
+        #print "Server started"
+        self.stop_event = threading.Event() #スレッドを停止させるフラグ
+        #スレッドの作成と開始
         self.thread = threading.Thread(target=self.readSocket)
         self.thread.setDaemon(True)
         self.thread.start()
 
     def readSocket(self):
-        while True:
+        #while True:
+        while not self.stop_event.is_set():
             try:
                 (self.client_sock, self.client_addr) = self.sock.accept()
-            except socket.error:
-                break
+                self.client_sock.settimeout(None)
+            except socket.timeout:
+                continue
             msg = ''
             while msg.find('\n') == -1:
                 msg = self.client_sock.recv(1024)
-                if len(msg) < 0:
-                    print "Socket closed; no HTTP header."
-                    break
-                msg += msg;
-
+                if len(msg) > 0:
+                    msg += msg;
             self.htmlRequest(msg)
             self.client_sock.close()
 
     def close(self):
-        print "server close()"
+        #print "server close()"
         self.ser.close()
-        self.stop_event.set()
-        #self.client_sock.close()
+        self.stop_event.set()   #スレッドの停止
+        self.thread.join()   #スレッドが停止するのを待つ
         self.sock.close()
-
 
 if __name__ == "__main__":
     server = server(8099)
@@ -185,7 +189,7 @@ if __name__ == "__main__":
         except (KeyboardInterrupt, SystemExit):
              break
         except:
-            print "error"
+            #print "error"
             break
 
     #ser.close()
