@@ -12,7 +12,7 @@
     "connect":"Connect",
     "serial":"Serial Port",
     "site":"http://okhiroyuki.github.io/S2A/index.html",
-    "refresh":"refresh"
+    "refresh":"Port refresh"
   },
   "ja":{
     "extension":"使用する拡張機能",
@@ -20,6 +20,6 @@
     "connect":"接続",
     "serial":"シリアルポート",
     "site":"http://okhiroyuki.github.io/S2A/ja/index.html",
-    "refresh":"更新"
+    "refresh":"ポートの更新"
   }
 }
