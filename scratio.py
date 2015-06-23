@@ -64,6 +64,7 @@ class scratio:
             self.button2.Enable()
 
     def click_refresh(self,event):
+      self.server.close()
       self.ports = self.getportlist()
       self.combobox_ports.SetItems(self.ports)
       self.selectflg[0] = 0

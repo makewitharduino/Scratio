@@ -27,13 +27,17 @@ class arduino():
 
     def main(self):
         #print u"Arduino started"
+        self.stop_event = threading.Event() #スレッドを停止させるフラグ
         self.thread = threading.Thread(target=self.readStatus)
         self.thread.setDaemon(True)
         self.thread.start()
 
     def readStatus(self):
-        while True:
-            line = self.ser.readline().rstrip('\r\n')
+        while not self.stop_event.is_set():
+            try:
+                line = self.ser.readline().rstrip('\r\n')
+            except:
+                self.close()
             #print len(line)
             if len(line) > 0:
                 #read state of digital Pin
@@ -52,8 +56,7 @@ class arduino():
                     for x in range(0,12):
                         self.cap_in[x] = dstr[x]
             else:
-                break
-        self.close()
+                self.close()
 
     def getDigitalState(self):
         return self.dp_in
@@ -72,8 +75,9 @@ class arduino():
     def close(self):
         #print u"port close()"
         if self.oflg == 1:
-            self.ser.close()
             self.oflg = 0
+            self.stop_event.set()
+            self.ser.close()
 
 if __name__ == "__main__":
     ser = arduino()
