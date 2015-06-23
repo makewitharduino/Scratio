@@ -18,9 +18,13 @@ class arduino():
         self.ser.baudrate = baudrate
         self.ser.port = port
         self.ser.timeout = 1
-        self.ser.open()
+        try:
+            self.ser.open()
+        except:
+            return False
         self.oflg = 1
         time.sleep(1)
+        return True
 
     def checkOpenflg(self):
         return self.oflg

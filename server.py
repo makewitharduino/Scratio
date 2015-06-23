@@ -22,8 +22,8 @@ class server():
 
     def call_arduino(self,port):
         self.ser = arduino()
-        self.ser.open(port,115200)
-        self.ser.main()
+        if self.ser.open(port,115200):
+            self.ser.main()
 
     def sendResponse(self,s):
         crlf = '\r\n'
